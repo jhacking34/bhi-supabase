@@ -1,0 +1,77 @@
+name: Sync Domo Data to Supabase
+
+on:
+  schedule:
+    # Run every 6 hours
+    - cron: '0 */6 * * *'
+  workflow_dispatch: # Allow manual trigger
+  push:
+    branches: [ main ]
+    paths:
+      - 'supabase/functions/fetch-domo-data/**'
+
+jobs:
+  sync-domo-data:
+    runs-on: ubuntu-latest
+    name: Sync Domo Data
+    
+    steps:
+      - name: Call Supabase Edge Function
+        run: |
+          echo "🔄 Starting Domo data sync..."
+          
+          # Call the Supabase edge function
+          response=$(curl -s -w "\n%{http_code}" -X POST \
+            -H "Authorization: Bearer ${{ secrets.SUPABASE_ANON_KEY }}" \
+            -H "Content-Type: application/json" \
+            https://ykcoosvkhrcbtuhvaqev.supabase.co/functions/v1/fetch-domo-data)
+          
+          # Extract response body and status code
+          http_code=$(echo "$response" | tail -n1)
+          response_body=$(echo "$response" | head -n -1)
+          
+          echo "📊 Response Status: $http_code"
+          echo "📋 Response Body: $response_body"
+          
+          # Parse JSON response
+          success=$(echo "$response_body" | jq -r '.success // false')
+          records_processed=$(echo "$response_body" | jq -r '.recordsProcessed // 0')
+          records_inserted=$(echo "$response_body" | jq -r '.recordsInserted // 0')
+          records_updated=$(echo "$response_body" | jq -r '.recordsUpdated // 0')
+          errors=$(echo "$response_body" | jq -r '.errors // []')
+          
+          echo "✅ Success: $success"
+          echo "📈 Records Processed: $records_processed"
+          echo "➕ Records Inserted: $records_inserted"
+          echo "🔄 Records Updated: $records_updated"
+          
+          if [ "$success" = "true" ]; then
+            echo "🎉 Domo data sync completed successfully!"
+            echo "📊 Summary: $records_processed processed, $records_inserted inserted, $records_updated updated"
+          else
+            echo "❌ Domo data sync failed!"
+            echo "🚨 Errors: $errors"
+            exit 1
+          fi
+          
+          # Check for errors
+          error_count=$(echo "$errors" | jq 'length')
+          if [ "$error_count" -gt 0 ]; then
+            echo "⚠️  Warning: $error_count error(s) occurred during sync"
+            echo "$errors" | jq -r '.[]' | while read error; do
+              echo "  - $error"
+            done
+          fi
+
+      - name: Notify on Success
+        if: success()
+        run: |
+          echo "✅ GitHub Action completed successfully!"
+          echo "🕐 Sync completed at: $(date)"
+          
+      - name: Notify on Failure
+        if: failure()
+        run: |
+          echo "❌ GitHub Action failed!"
+          echo "🕐 Failure occurred at: $(date)"
+          echo "Please check the Supabase function logs for more details."

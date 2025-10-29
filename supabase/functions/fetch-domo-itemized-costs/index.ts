@@ -110,6 +110,76 @@ Deno.serve(async (req: Request) => {
         }
       }
       
+      // Extract vendor and vendor_name with cleanup logic
+      let vendor = record.Vendor || null;
+      let vendorName = record['Vendor Name'] || null;
+      
+      // If vendor is null, '221164', or '21601', extract vendor name from detl_desc
+      const vendorString = vendor?.toString().trim() || '';
+      const shouldExtractVendor = !vendor || vendorString === '221164' || vendorString === '21601';
+      
+      if (shouldExtractVendor && record.DetlDesc) {
+        const detlDesc = record.DetlDesc.trim();
+        
+        // Extract vendor name from detl_desc
+        // Example: '221164 Divvy Users - CC Upl 20250831 / TR# 8185 / 260 / APCo: 1  Lorena Fajardo Newegg ' -> 'Newegg'
+        // Strategy: Get text after the last "/" segment, then take the last meaningful word(s)
+        
+        let extractedVendor = null;
+        
+        // Split by "/" to handle segmented descriptions
+        const segments = detlDesc.split('/').map(s => s.trim()).filter(s => s.length > 0);
+        
+        // Work with the last segment (most likely to contain vendor name)
+        const textToProcess = segments.length > 0 ? segments[segments.length - 1] : detlDesc;
+        
+        // Split into words and filter out non-vendor words
+        const words = textToProcess.split(/\s+/).filter(w => {
+          const word = w.trim();
+          if (!word || word.length < 3) return false; // Too short
+          
+          const lowerW = word.toLowerCase();
+          // Filter out known non-vendor tokens
+          const excludedTokens = ['apco', 'apco:', 'tr#', 'cc', 'upl', 'divvy', 'users', '260', '1', 
+                                  '221164', '21601', 'lorena', 'fajardo'];
+          if (excludedTokens.includes(lowerW)) return false;
+          
+          // Filter out pure numbers (dates, IDs, etc)
+          if (/^\d+$/.test(word) && word.length > 4) return false; // Long numbers probably dates/IDs
+          if (/^\d{8}$/.test(word)) return false; // Dates like 20250831
+          
+          // Filter out patterns like "TR# 8185" fragments
+          if (/^tr#/i.test(word)) return false;
+          
+          return true;
+        });
+        
+        if (words.length > 0) {
+          // Usually vendor name is the last 1-2 words
+          // Take last 1-2 words as vendor name (handles both "Newegg" and "Amazon Web Services")
+          extractedVendor = words.slice(-2).join(' ').trim();
+        }
+        
+        // Fallback: if no good extraction from last segment, try the very end of the full detl_desc
+        if (!extractedVendor || extractedVendor.length < 3) {
+          const allWords = detlDesc.split(/\s+/).filter(w => {
+            const word = w.trim();
+            if (!word || word.length < 3) return false;
+            const lowerW = word.toLowerCase();
+            return !/^(apco|tr#|cc|upl|divvy|users|260|1|221164|21601|fajardo|lorena)$/.test(lowerW) &&
+                   !/^\d{8,}$/.test(word); // Not long numbers
+          });
+          
+          if (allWords.length > 0) {
+            extractedVendor = allWords.slice(-2).join(' ').trim();
+          }
+        }
+        
+        if (extractedVendor && extractedVendor.length >= 3) {
+          vendorName = extractedVendor;
+        }
+      }
+      
       return {
         job: record.Job || '',
         cost_trans: record.CostTrans ? parseInt(record.CostTrans) : null,
@@ -117,8 +187,8 @@ Deno.serve(async (req: Request) => {
         cost_type: record.CostType ? parseInt(record.CostType) : null,
         posted_date: parsedDate,
         actual_cost: record.ActualCost ? parseFloat(record.ActualCost) : null,
-        vendor: record.Vendor || null,
-        vendor_name: record['Vendor Name'] || null,
+        vendor: vendor,
+        vendor_name: vendorName,
         po: record.PO || null,
         description: record.Description || null,
         detl_desc: record.DetlDesc || null

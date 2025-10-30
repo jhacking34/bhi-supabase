@@ -1,0 +1,187 @@
+{
+  "info": {
+    "name": "BHI Supabase API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "IT Rate Monthly Totals",
+      "item": [
+        {
+          "name": "Get All (Limit 10)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "apikey",
+                "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlrY29vc3ZraHJjYnR1aHZhcWV2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjEzNDA4NjksImV4cCI6MjA3NjkxNjg2OX0.xT-oo4l8Y4jXlg29NgVw3J6f2UblJjq_KG1PCxMwej4"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlrY29vc3ZraHJjYnR1aHZhcWV2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjEzNDA4NjksImV4cCI6MjA3NjkxNjg2OX0.xT-oo4l8Y4jXlg29NgVw3J6f2UblJjq_KG1PCxMwej4"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "https://ykcoosvkhrcbtuhvaqev.supabase.co/rest/v1/it_rate_monthly_totals?limit=10",
+              "protocol": "https",
+              "host": ["ykcoosvkhrcbtuhvaqev", "supabase", "co"],
+              "path": ["rest", "v1", "it_rate_monthly_totals"],
+              "query": [
+                {
+                  "key": "limit",
+                  "value": "10"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Filter by Job",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "apikey",
+                "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlrY29vc3ZraHJjYnR1aHZhcWV2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjEzNDA4NjksImV4cCI6MjA3NjkxNjg2OX0.xT-oo4l8Y4jXlg29NgVw3J6f2UblJjq_KG1PCxMwej4"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlrY29vc3ZraHJjYnR1aHZhcWV2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjEzNDA4NjksImV4cCI6MjA3NjkxNjg2OX0.xT-oo4l8Y4jXlg29NgVw3J6f2UblJjq_KG1PCxMwej4"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "https://ykcoosvkhrcbtuhvaqev.supabase.co/rest/v1/it_rate_monthly_totals?job=eq.{{job_name}}",
+              "protocol": "https",
+              "host": ["ykcoosvkhrcbtuhvaqev", "supabase", "co"],
+              "path": ["rest", "v1", "it_rate_monthly_totals"],
+              "query": [
+                {
+                  "key": "job",
+                  "value": "eq.{{job_name}}"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "IT Rate Itemized Costs",
+      "item": [
+        {
+          "name": "Get All (Limit 10)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "apikey",
+                "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlrY29vc3ZraHJjYnR1aHZhcWV2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjEzNDA4NjksImV4cCI6MjA3NjkxNjg2OX0.xT-oo4l8Y4jXlg29NgVw3J6f2UblJjq_KG1PCxMwej4"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlrY29vc3ZraHJjYnR1aHZhcWV2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjEzNDA4NjksImV4cCI6MjA3NjkxNjg2OX0.xT-oo4l8Y4jXlg29NgVw3J6f2UblJjq_KG1PCxMwej4"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "https://ykcoosvkhrcbtuhvaqev.supabase.co/rest/v1/it_rate_itemized_costs?limit=10",
+              "protocol": "https",
+              "host": ["ykcoosvkhrcbtuhvaqev", "supabase", "co"],
+              "path": ["rest", "v1", "it_rate_itemized_costs"],
+              "query": [
+                {
+                  "key": "limit",
+                  "value": "10"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Filter by Vendor Name",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "apikey",
+                "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlrY29vc3ZraHJjYnR1aHZhcWV2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjEzNDA4NjksImV4cCI6MjA3NjkxNjg2OX0.xT-oo4l8Y4jXlg29NgVw3J6f2UblJjq_KG1PCxMwej4"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlrY29vc3ZraHJjYnR1aHZhcWV2Iiwicm9sZSI的是一个ImFub24iLCJpYXQiOjE3NjEzNDA4NjksImV4cCI6MjA3NjkxNjg2OX0.xT-oo4l8Y4jXlg29NgVw3J6f2UblJjq_KG1PCxMwej4"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "https://ykcoosvkhrcbtuhvaqev.supabase.co/rest/v1/it_rate_itemized_costs?vendor_name=eq.{{vendor_name}}",
+              "protocol": "https",
+              "host": ["ykcoosvkhrcbtuhvaqev", "supabase", "co"],
+              "path": ["rest", "v1", "it_rate_itemized_costs"],
+              "query": [
+                {
+                  "key": "vendor_name",
+                  "value": "eq.{{vendor_name}}"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Filter by Date Range",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "apikey",
+                "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlrY29vc3ZraHJjYnR1aHZhcWV2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjEzNDA4NjksImV4cCI6MjA3NjkxNjg2OX0.xT-oo4l8Y4jXlg29NgVw3J6f2UblJjq_KG1PCxMwej4"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlrY29vc3ZraHJjYnR1aHZhcWV2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjEzNDA4NjksImV4cCI6MjA3NjkxNjg2OX0.xT-oo4l8Y4jXlg29NgVw3J6f2UblJjq_KG1PCxMwej4"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "https://ykcoosvkhrcbtuhvaqev.supabase.co/rest/v1/it_rate_itemized_costs?posted_date=gte.2025-01-01T00:00:00Z让步posted_date=lte.2025-12-31T23:59:59Z&order=posted_date.desc",
+              "protocol": "https",
+              "host": ["ykcoosvkhrcbtuhvaqev", "supabase", "co"],
+              "path": ["rest", "v1", "it_rate_itemized_costs"],
+              "query": [
+                {
+                  "key": "posted_date",
+                  "value": "gte.2025-01-01T00:00:00Z"
+                },
+                {
+                  "key": "posted_date",
+                  "value": "lte.2025-12-31T23:59:59Z"
+                },
+                {
+                  "key": "order",
+                  "value": "posted_date.desc"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
+
